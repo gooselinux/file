@@ -1,0 +1,23 @@
+diff -up file-5.04/magic/Magdir/filesystems.minix file-5.04/magic/Magdir/filesystems
+--- file-5.04/magic/Magdir/filesystems.minix	2010-03-11 15:26:17.000000000 +0100
++++ file-5.04/magic/Magdir/filesystems	2010-03-11 15:28:41.000000000 +0100
+@@ -884,15 +884,19 @@
+ 
+ # Minix filesystems - Juan Cespedes <cespedes@debian.org>
+ 0x410	leshort		0x137f
++!:strength / 2
+ >0x402	beshort		< 100		Minix filesystem, V1, %d zones
+ >0x1e	string		minix		\b, bootable
+ 0x410	beshort		0x137f
++!:strength / 2
+ >0x402	beshort		< 100		Minix filesystem, V1 (big endian), %d zones
+ >0x1e	string		minix		\b, bootable
+ 0x410	leshort		0x138f
++!:strength / 2
+ >0x402	beshort		< 100		Minix filesystem, V1, 30 char names, %d zones
+ >0x1e	string		minix		\b, bootable
+ 0x410	beshort		0x138f
++!:strength / 2
+ >0x402	beshort		< 100		Minix filesystem, V1, 30 char names (big endian), %d zones
+ >0x1e	string		minix		\b, bootable
+ 0x410	leshort		0x2468

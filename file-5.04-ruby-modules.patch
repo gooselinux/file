@@ -1,0 +1,40 @@
+From eebad924e62b678a54d3af05a12da2a929f5d918 Mon Sep 17 00:00:00 2001
+From: Lubomir Rintel <lkundrak@v3.sk>
+Date: Fri, 5 Feb 2010 13:19:48 +0100
+Subject: [PATCH] Add matches for ruby modules
+
+Similar to what's already done for Perl. Existing rules only match shebangs,
+which is not useful in most cases. This was tested to yield no false
+positives when run against every perl and python source file I could find
+on my system (260 CPAN modules and 59 Python modules). Produces a couple
+of false negatives for a couple of files from 30 Ruby gems I have
+installed, but is still an improvement over existing rules. (Ruby is
+used to construct DSLs quite often, it would be really tricky to match
+those).
+---
+ magic/Magdir/ruby |   12 ++++++++++++
+ 1 files changed, 12 insertions(+), 0 deletions(-)
+
+diff --git a/magic/Magdir/ruby b/magic/Magdir/ruby
+index 7030295..be1786c 100644
+--- a/magic/Magdir/ruby
++++ b/magic/Magdir/ruby
+@@ -14,3 +14,15 @@
+ !:mime text/x-ruby
+ 0	search/1	#!\ /usr/bin/env\ ruby	Ruby script text executable
+ !:mime text/x-ruby
++
++# What looks like ruby, but does not have a shebang
++# (modules and such)
++# From: Lubomir Rintel <lkundrak@v3.sk>
++0	regex		\^[\ \t]*require[\ \t]'[A-Za-z_\/]+'
++>0	regex		include\ [A-Z]|def\ [a-z]|\ do$
++>>0	regex		\^[\ \t]*end([\ \t]*[;#].*)?$		Ruby script text
++!:mime	text/x-ruby
++0	regex		\^[\ \t]*(class|module)[\ \t][A-Z]
++>0	regex		(modul|includ)e\ [A-Z]|def\ [a-z]
++>>0	regex		\^[\ \t]*end([\ \t]*[;#].*)?$		Ruby module source text
++!:mime	text/x-ruby
+-- 
+1.6.6
+
